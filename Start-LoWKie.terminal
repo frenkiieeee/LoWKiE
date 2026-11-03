@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>LoWKie</string>
+	<key>type</key>
+	<string>Window Settings</string>
+	<key>ProfileCurrentVersion</key>
+	<real>2.07</real>
+	<key>RunCommandAsShell</key>
+	<false/>
+	<key>CommandString</key>
+	<string>/bin/sh -c 'clear; f="$(find "$HOME/Downloads" "$HOME/Desktop" "$HOME/Documents" -maxdepth 4 -name start-lowkie.sh 2&gt;/dev/null | head -1)"; if [ -n "$f" ]; then cd "$(dirname "$f")" &amp;&amp; sh start-lowkie.sh; else echo "No encuentro la carpeta de LoWKie (busque en Descargas, Escritorio y Documentos)."; echo "Muevela a una de ellas, o abre Terminal, escribe sh y un espacio, y arrastra aqui el archivo start-lowkie.sh."; printf "Pulsa Intro para cerrar... "; read x; fi'</string>
+</dict>
+</plist>
