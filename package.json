@@ -1,0 +1,16 @@
+{
+  "name": "lowkie",
+  "version": "0.1.2",
+  "private": true,
+  "description": "LoWKie: entorno educativo de programación (Java).",
+  "packageManager": "pnpm@12.16.1",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node runtime/src/cli.js start",
+    "stop": "node runtime/src/cli.js stop",
+    "test": "node --test \"tests/**/*.test.js\"",
+    "build:editor": "pnpm --filter lowkie-editor-bundle build",
+    "fetch-node": "node scripts/fetch-node.js",
+    "package": "node scripts/package.js"
+  }
+}

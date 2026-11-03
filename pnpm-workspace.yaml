@@ -1,0 +1,7 @@
+# El servicio de LoWKie no tiene dependencias. Solo el generador del editor (CodeMirror) las usa.
+packages:
+  - "tools/*"
+
+# pnpm no ejecuta scripts de instalación por defecto. esbuild necesita el suyo para enlazar su binario nativo.
+allowBuilds:
+  esbuild: true
