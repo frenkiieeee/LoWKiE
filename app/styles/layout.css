@@ -1,0 +1,59 @@
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+/* Barra lateral */
+.sidebar {
+  position: sticky; top: 0; align-self: start;
+  height: 100vh;
+  display: flex; flex-direction: column; gap: var(--space-7);
+  padding: var(--space-6) var(--space-5);
+  border-right: var(--line);
+  background: var(--color-white);
+}
+
+.brand {
+  display: inline-flex; align-items: baseline; text-decoration: none;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.75rem;
+  letter-spacing: -0.03em; color: var(--color-navy);
+}
+.brand__mark { color: var(--color-blue); }
+
+.nav { display: flex; flex-direction: column; }
+.sidebar__foot { margin-top: auto; display: grid; gap: var(--space-2); }
+.sidebar__note {
+  font-size: var(--fs-caption); color: var(--color-muted); line-height: 1.5;
+}
+
+/* Contenido */
+.main { min-width: 0; }
+.view {
+  max-width: var(--content-max);
+  padding: var(--space-8) var(--gutter) var(--space-9);
+}
+.view > * + * { margin-top: var(--space-8); }
+
+/* Rejilla editorial asimétrica */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+
+/* Pantallas pequeñas: la barra lateral pasa a barra superior */
+@media (max-width: 56rem) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: static; height: auto; flex-direction: row; align-items: center;
+    flex-wrap: wrap; gap: var(--space-3) var(--space-5);
+    padding: var(--space-4) var(--gutter);
+    border-right: 0; border-bottom: var(--line);
+  }
+  .sidebar__foot { display: none; }
+  .nav { flex-direction: row; width: 100%; overflow-x: auto; gap: var(--space-2); }
+  .split { grid-template-columns: minmax(0, 1fr); gap: var(--space-7); }
+  .view { padding-top: var(--space-7); }
+}

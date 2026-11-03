@@ -1,0 +1,75 @@
+/* Code Space: la pantalla ocupa todo el ancho y alto disponible */
+.view--wide { max-width: none; padding: var(--space-4); }
+.cs > * + * { margin-top: 0; }
+.cs { display: grid; grid-template-rows: auto minmax(0, 1fr) 14rem; gap: var(--space-3); height: calc(100vh - 2rem); min-height: 34rem; }
+.cs__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-3); padding-bottom: var(--space-3); border-bottom: var(--line-strong); }
+.cs__topl, .cs__topr { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.cs__h1 { font-size: var(--fs-sub); }
+.cs__ws { font-weight: 600; color: var(--color-navy); }
+.cs__check { font-size: var(--fs-small); display: inline-flex; align-items: center; gap: var(--space-2); cursor: pointer; }
+.cs__toast { font-size: var(--fs-small); color: var(--color-green-dark); font-weight: 600; min-height: 1em; }
+.cs__toast.is-error { color: #B42318; }
+.btn--sm { min-height: 2rem; padding: 0 var(--space-3); font-size: var(--fs-caption); border-width: 1px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn:disabled:hover { background: transparent; color: var(--color-blue); border-color: var(--color-blue); }
+.btn:not(.btn--ghost):disabled:hover { background: var(--color-blue); color: var(--color-white); }
+
+.cs__body { display: grid; grid-template-columns: 15rem minmax(0, 1fr) 15rem; gap: var(--space-3); min-height: 0; }
+.cs--noassist .cs__body { grid-template-columns: 15rem minmax(0, 1fr); }
+.cs__explorer, .cs__assist { overflow: auto; border: var(--line); border-radius: var(--radius); background: var(--color-surface); padding: var(--space-3); min-height: 0; }
+.cs__assist { font-size: var(--fs-small); }
+.cs__assist[hidden] { display: none; }
+.cs__title { font-family: var(--font-mono); font-size: var(--fs-caption); text-transform: uppercase; letter-spacing: .08em; color: var(--color-muted); margin-bottom: var(--space-3); }
+.cs__tools { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-bottom: var(--space-3); }
+
+.tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+.tree__row { display: flex; align-items: center; gap: var(--space-2); width: 100%; text-align: left; background: none; border: 0; border-radius: 4px; padding: .3rem .5rem; font: inherit; font-size: var(--fs-small); color: var(--color-text); cursor: pointer; }
+.tree__row:hover { background: var(--color-border); }
+.tree__row.is-selected { background: var(--color-blue); color: var(--color-white); }
+.tree__ico { width: 1ch; color: inherit; opacity: .7; }
+
+.cs__main { display: flex; flex-direction: column; min-width: 0; min-height: 0; border: var(--line); border-radius: var(--radius); overflow: hidden; }
+.tabs { display: flex; overflow-x: auto; background: var(--color-surface); border-bottom: var(--line); flex: none; }
+.tabwrap { display: flex; align-items: center; border-right: var(--line); border-bottom: 3px solid transparent; white-space: nowrap; }
+.tabwrap.is-active { background: var(--color-white); border-bottom-color: var(--color-blue); }
+.tab { background: none; border: 0; padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3); font: 500 var(--fs-small) var(--font-body); color: var(--color-muted); cursor: pointer; }
+.tab.is-active { color: var(--color-navy); font-weight: 600; }
+.tab__dot { color: var(--color-blue); margin-left: var(--space-2); font-size: .7em; }
+.tab__x { background: none; border: 0; padding: 0 var(--space-3) 0 var(--space-1); font-size: 1.1rem; color: var(--color-muted); cursor: pointer; }
+.tab__x:hover { color: var(--color-navy); }
+.cs__editors { flex: 1; min-height: 0; position: relative; }
+.cs__ed { position: absolute; inset: 0; }
+.cs__ed[hidden] { display: none; }
+.cs__ed .cm-editor { height: 100%; }
+.cs__empty { flex: 1; display: grid; place-items: center; color: var(--color-muted); }
+.cs__empty[hidden] { display: none; }
+
+.cs__panel { display: flex; flex-direction: column; min-height: 0; border: 1px solid var(--color-navy); border-radius: var(--radius); background: var(--color-navy); color: #E8EDF8; overflow: hidden; }
+.ptabs { display: flex; flex: none; border-bottom: 1px solid #27437A; }
+.ptab { background: none; border: 0; padding: var(--space-2) var(--space-4); color: #A9B8D8; font: 600 var(--fs-caption) var(--font-body); cursor: pointer; border-bottom: 3px solid transparent; }
+.ptab[aria-selected="true"] { color: var(--color-white); border-bottom-color: var(--color-green); }
+.out { flex: 1; margin: 0; padding: var(--space-3) var(--space-4); overflow: auto; font: 13px/1.55 var(--font-mono); white-space: pre-wrap; word-break: break-word; }
+.out[hidden], .problems[hidden] { display: none; }
+.out__err { color: #FF9C9C; }
+.out__sys { color: #8FB4FF; }
+.problems { flex: 1; overflow: auto; padding: var(--space-3) var(--space-4); }
+.problem { padding: var(--space-2) 0; border-bottom: 1px solid #27437A; }
+.problem__loc { background: none; border: 0; padding: 0; color: #8FB4FF; font: 600 var(--fs-small) var(--font-mono); cursor: pointer; text-decoration: underline; }
+.problem__msg { font: 13px var(--font-mono); margin-top: 2px; }
+.problem.is-error .problem__msg { color: #FF9C9C; }
+.problem__hint { margin-top: var(--space-1); color: #CFF7E3; font-size: var(--fs-small); }
+
+.dlg { border: 0; border-radius: var(--radius); padding: var(--space-5); width: min(26rem, 92vw); box-shadow: 0 12px 40px rgba(16, 42, 86, .3); }
+.dlg::backdrop { background: rgba(16, 42, 86, .5); }
+.dlg__title { font-size: var(--fs-sub); margin-bottom: var(--space-3); }
+.dlg__input { display: block; width: 100%; margin-top: var(--space-2); padding: var(--space-3); font: inherit; border: 1px solid var(--color-navy); border-radius: var(--radius); }
+.dlg__actions { display: flex; justify-content: flex-end; gap: var(--space-3); margin-top: var(--space-5); }
+
+@media (max-width: 56rem) {
+  .cs { height: auto; grid-template-rows: auto auto 16rem; }
+  .cs__body { grid-template-columns: minmax(0, 1fr); }
+  .cs__main { min-height: 26rem; }
+  .cs__explorer { max-height: 14rem; }
+  .cs__assist { display: none; }
+}
+.cs__top .gate { flex-basis: 100%; max-width: none; }
