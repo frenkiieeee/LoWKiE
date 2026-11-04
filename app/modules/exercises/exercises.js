@@ -136,7 +136,7 @@
             if (!v) empty = true; else if (v !== b.answer) { wrong.push(b); selects[b.id].classList.add("is-bad"); } else selects[b.id].classList.add("is-good");
           });
           if (empty) return say("info", h("p", null, "Rellena todos los huecos para comprobar."));
-          result(!wrong.length, wrong.length ? wrong.map(function (b) { var v = selects[b.id].value; return "Hueco " + b.id + ": " + (ex.why[v] || "`" + v + "` no es correcto aquí."); }).join(" ") : null);
+          result(!wrong.length, wrong.length ? wrong.map(function (b) { var v = selects[b.id].value; return "Hueco " + b.id + ": " + (ex.why[b.id + ":" + v] || ex.why[v] || "`" + v + "` no es correcto aquí."); }).join(" ") : null);
         },
         solution: function () { ex.blanks.forEach(function (b) { selects[b.id].value = b.answer; selects[b.id].classList.add("is-good"); selects[b.id].disabled = true; }); },
         disable: function () { Object.keys(selects).forEach(function (k) { selects[k].disabled = true; }); }

@@ -12,7 +12,7 @@ function load(files) {
   for (const f of files) vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), ctx, { filename: f });
   return window.LoWKie;
 }
-const CONTENT = ["content/java/arrays/lesson.js", "content/java/arrays/exercises.js", "content/java/arrays/recommendations.js"];
+const CONTENT = ["content/java/arrays/lesson.js", "content/java/arrays/exercises.js", "content/java/arrays/advanced.js", "content/java/arrays/exercises-advanced.js", "content/java/arrays/recommendations.js"];
 module.exports = {
   ROOT,
   content: () => load(CONTENT).content,

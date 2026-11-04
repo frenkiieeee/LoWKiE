@@ -2,8 +2,8 @@
 Education platform to learn code with a creative path
 
 Entorno educativo para aprender a programar. **Unidad 1: Arrays en Java** (sesión guiada de 90 minutos):
-teoría breve, simuladores visuales de arrays y matrices, 26 ejercicios de seis tipos y un editor Java real
-donde compilar y ejecutar tu código.
+teoría breve, simuladores visuales (arrays, matrices, ordenación y referencias), 50 ejercicios de seis tipos y un editor Java real
+donde compilar y ejecutar tu código. **Avanzando** amplía la unidad con patrones, copias, ordenación, métodos, matrices y consejos.
 
 ---
 
@@ -52,6 +52,11 @@ Ambos se descargan de sus webs oficiales, se **verifican** con su suma SHA-256 y
   ([contenido editable](docs/content-authoring.md)).
 - El código del alumno se ejecuta con los permisos de su usuario: **no es un sandbox** ([seguridad](docs/security.md)).
 
+### Actualizar sin perder nada
+Basta con **sustituir la carpeta de LoWKie por la nueva** (o volver a descargar el ZIP). Tu progreso, tus proyectos y el Java instalado viven fuera de esa carpeta (ver abajo),
+y «Avanzando» se añade sin tocar la unidad base: lo que ya hiciste sigue igual. En **Progreso** hay además «Guardar copia de mi progreso» / «Cargar una copia»
+(al cargar se **combina** con lo que ya tengas) para cambiar de ordenador o de navegador.
+
 ### Dónde se guardan los datos
 - Proyectos: `Documentos/LoWKie/Projects/` (proyecto inicial `Arrays`, con los archivos de ejercicios).
 - Progreso y ajustes: `%APPDATA%\LoWKie` (Windows) · `~/Library/Application Support/LoWKie` (macOS) · `~/.local/share/LoWKie` (Linux).
@@ -63,7 +68,7 @@ Ambos se descargan de sus webs oficiales, se **verifican** con su suma SHA-256 y
 
 ```
 pnpm start                       # inicia el servicio y abre el navegador (el servicio no tiene dependencias)
-pnpm test                        # 90 pruebas: contenido (verificado con Java real), progreso, API, seguridad, instalador
+pnpm test                        # 140+ pruebas: contenido (verificado con Java real), progreso, API, seguridad, instalador
 pnpm package --platform=win-x64  # ZIP ligero por sistema, con Node incluido (mejor construirlo en macOS/Linux)
 pnpm fetch-node all              # Node LTS verificado (SHA-256) para empaquetar
 ```

@@ -1,0 +1,195 @@
+/* Ejercicios de «Avanzando» (ver advanced.js). Mismos formatos que exercises.js. */
+(function (L) {
+  var C = L.content, choice = C._h.choice, detect = C._h.detect, program = C._h.program;
+  var cls = function (b) { return "public class Main { public static void main(String[] args) throws Exception {\n" + b + "\n} }"; };
+
+  C.exercises = C.exercises.concat([
+    /* ---------- x1 · Patrones de recorrido ---------- */
+    choice("x1a", "prediction", "patterns", "intermediate", "Contar pares",
+      "¿Qué imprime este código?", "int[] a = {4, 7, 10, 3, 8};\nint c = 0;\nfor (int i = 0; i < a.length; i++) {\n    if (a[i] % 2 == 0) {\n        c++;\n    }\n}\nSystem.out.println(c);",
+      ["2", "3", "4", "5"], "3",
+      { "2": "Revisa de nuevo: 4, 10 y 8 son pares (tres valores).", "4": "7 y 3 son impares y no cuentan.", "5": "Esa es la longitud del array, no cuántos valores son pares." },
+      ["`c++` solo se ejecuta cuando la condición del `if` es cierta.", "Un número es par si `% 2` da 0."],
+      "El contador solo aumenta con los pares: 4, 10 y 8 → **3**.", { verify: true }),
+
+    { id: "x1b", type: "completar", topic: "patterns", difficulty: "intermediate", title: "¿Está el valor?",
+      prompt: "Completa los dos huecos para que el programa diga si el valor `objetivo` está en el array.",
+      template: "int[] datos = {5, 9, 12, 7};\nint objetivo = 12;\nboolean encontrado = {{1}};\nfor (int i = 0; i < datos.length; i++) {\n    if (datos[i] == objetivo) {\n        encontrado = {{2}};\n    }\n}\nSystem.out.println(encontrado);",
+      blanks: [{ id: "1", options: ["false", "true", "0", "null"], answer: "false" }, { id: "2", options: ["true", "false", "i", "objetivo"], answer: "true" }],
+      why: { "1:true": "Si empieza en `true`, el programa diría que lo encontró aunque no esté.", "2:false": "Al encontrarlo hay que poner `true`; con `false` nunca cambiaría.", "0": "Un `boolean` solo admite `true` o `false`.", "null": "Un `boolean` no puede ser `null`: solo `true` o `false`.", "i": "`i` es un número (la posición), no un `boolean`.", "objetivo": "`objetivo` es un número, no un `boolean`." },
+      hints: ["La variable debe empezar diciendo «todavía no lo he encontrado».", "Cuando se cumple la condición, hay que cambiarla a lo contrario."],
+      explanation: "`encontrado` empieza en **false** (aún no se ha visto) y pasa a **true** cuando `datos[i] == objetivo`.",
+      estimatedMinutes: 3, verify: { prelude: "", output: "true" } },
+
+    detect("x1c", "patterns", "intermediate", "El máximo que no era", "Este programa debería imprimir el mayor valor (`-2`) pero imprime `0`. ¿Qué línea tiene el error?",
+      ["int[] t = {-5, -2, -9};", "int max = 0;", "for (int i = 0; i < t.length; i++) {", "    if (t[i] > max) {", "        max = t[i];", "    }", "}", "System.out.println(max);"], 2,
+      ["¿Es 0 uno de los valores del array?", "El «mejor hasta ahora» debe ser un valor real del array."],
+      "`max` empieza en 0, y ningún valor del array es mayor que 0, así que nunca se actualiza. Debe empezar en `t[0]`."),
+
+    program("x1d", "patterns", "intermediate", "Por encima de la media",
+      "Calcula la **media** (suma ÷ longitud) y cuenta cuántos valores del array son **mayores** que ella.",
+      "ejercicios/Ejercicio6.java",
+      "// Ejercicio 6: cuenta cuántos valores del array son mayores que la media.\npublic class Ejercicio6 {\n    public static void main(String[] args) {\n        int[] datos = {4, 8, 15, 16, 23, 42};\n        // TODO: calcula la media (suma / longitud) y cuenta cuántos valores la superan\n    }\n}\n",
+      "2",
+      "public class Ejercicio6 {\n    public static void main(String[] args) {\n        int[] datos = {4, 8, 15, 16, 23, 42};\n        int suma = 0;\n        for (int i = 0; i < datos.length; i++) {\n            suma += datos[i];\n        }\n        int media = suma / datos.length;\n        int mayores = 0;\n        for (int i = 0; i < datos.length; i++) {\n            if (datos[i] > media) {\n                mayores++;\n            }\n        }\n        System.out.println(mayores);\n    }\n}\n",
+      ["Necesitas **dos recorridos**: uno para la suma (y la media) y otro para contar.", "La media va **antes** del segundo bucle.", "Suma = 108, longitud = 6: la media es 18."],
+      "Primero se acumula la suma (108) y se obtiene la media (18). En un segundo recorrido se cuentan los valores mayores que 18: 23 y 42 → **2**."),
+
+    /* ---------- x2 · Modificar y copiar ---------- */
+    { id: "x2a", type: "ordenar", topic: "modify-copy", difficulty: "intermediate", title: "Intercambiar a[0] y a[1]",
+      prompt: "Ordena las tres instrucciones para **intercambiar** `a[0]` y `a[1]` (con `a = {1, 2}` debe quedar `{2, 1}`).",
+      lines: ["int temp = a[0];", "a[0] = a[1];", "a[1] = temp;"], correctOrders: [[0, 1, 2]],
+      hints: ["Hay que **guardar** un valor antes de pisarlo.", "Primero guarda `a[0]` en `temp`."],
+      explanation: "Se guarda `a[0]` en `temp`, se copia `a[1]` sobre `a[0]` y finalmente `temp` (el antiguo `a[0]`) va a `a[1]`.",
+      estimatedMinutes: 2, verify: { prelude: "int[] a = {1, 2};\n", postlude: "\nSystem.out.println(a[0] + \" \" + a[1]);", output: "2 1" } },
+
+    choice("x2b", "prediction", "modify-copy", "intermediate", "Invertir",
+      "¿Qué imprime este código?", "int[] a = {1, 2, 3, 4, 5};\nfor (int i = 0; i < a.length / 2; i++) {\n    int j = a.length - 1 - i;\n    int temp = a[i];\n    a[i] = a[j];\n    a[j] = temp;\n}\nfor (int i = 0; i < a.length; i++) {\n    System.out.print(a[i] + \" \");\n}",
+      ["5 4 3 2 1", "1 2 3 4 5", "5 2 3 4 1", "3 2 1 4 5"], "5 4 3 2 1",
+      { "1 2 3 4 5": "Eso pasaría si el bucle llegara al final: cada pareja se intercambiaría dos veces y volvería a su sitio. Aquí solo llega a `length / 2`.", "5 2 3 4 1": "Solo se intercambió la primera pareja, pero el bucle da `5 / 2 = 2` vueltas: también se intercambian el 2 y el 4.", "3 2 1 4 5": "Ese no es el resultado de intercambiar parejas simétricas." },
+      ["`a.length / 2` vale 2: dos intercambios.", "Parejas: (a[0], a[4]) y (a[1], a[3]); el del centro no se mueve."],
+      "Se intercambian el 1º con el 5º y el 2º con el 4º; el 3 queda en el centro: **5 4 3 2 1**.", { verify: true }),
+
+    choice("x2c", "prediction", "references", "intermediate", "Dos nombres, un array",
+      "¿Qué imprime este código?", "int[] a = {1, 2, 3};\nint[] b = a;\nb[0] = 99;\nSystem.out.println(a[0]);",
+      ["1", "99", "3", "Da error"], "99",
+      { "1": "Eso sería si `b` fuese una copia. Pero `int[] b = a;` solo da **otro nombre** al mismo array.", "3": "Ese es `a[2]`; aquí se imprime `a[0]`.", "Da error": "Es código válido: `b = a` solo copia la referencia." },
+      ["`b = a` no crea un array nuevo.", "Si `a` y `b` apuntan al mismo array, cambiar uno cambia el otro."],
+      "`b` y `a` son **el mismo array**. Cambiar `b[0]` cambia también `a[0]`: **99**.", { verify: true }),
+
+    choice("x2d", "interpretation", "references", "intermediate", "¿Cuántos arrays hay?",
+      "¿Cuántos arrays **distintos** existen en memoria tras ejecutar este código?", "int[] a = {1, 2, 3};\nint[] b = a;\nint[] c = a.clone();",
+      ["1", "2", "3", "6"], "2",
+      { "1": "`clone()` crea un array **nuevo**: `c` es independiente de `a`.", "3": "`b = a` no crea un array nuevo: `b` y `a` apuntan al mismo.", "6": "Se cuentan arrays, no elementos." },
+      ["Cuenta cuántas veces se **crea** un array (`{...}`, `new`, `clone()`).", "`int[] b = a;` no crea nada: solo un nombre más."],
+      "Se crean dos arrays: el original (que comparten `a` y `b`) y la copia de `clone()` (`c`): **2**.",
+      { verify: { body: "int[] a = {1, 2, 3};\nint[] b = a;\nint[] c = a.clone();\njava.util.Set<Object> s = java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());\ns.add(a); s.add(b); s.add(c);\nSystem.out.println(s.size());", output: "2" } }),
+
+    program("x2e", "modify-copy", "intermediate", "Rotar a la izquierda",
+      "Rota el array **una posición a la izquierda** (el primero pasa al final) e imprímelo: `2 3 4 5 1`.",
+      "ejercicios/Ejercicio7.java",
+      "// Ejercicio 7: rota el array una posición a la izquierda e imprímelo (2 3 4 5 1).\npublic class Ejercicio7 {\n    public static void main(String[] args) {\n        int[] datos = {1, 2, 3, 4, 5};\n        // TODO: guarda el primero, desplaza el resto una posición y colócalo al final\n    }\n}\n",
+      "2 3 4 5 1",
+      "public class Ejercicio7 {\n    public static void main(String[] args) {\n        int[] datos = {1, 2, 3, 4, 5};\n        int primero = datos[0];\n        for (int i = 0; i < datos.length - 1; i++) {\n            datos[i] = datos[i + 1];\n        }\n        datos[datos.length - 1] = primero;\n        for (int i = 0; i < datos.length; i++) {\n            System.out.print(datos[i] + \" \");\n        }\n    }\n}\n",
+      ["Guarda `datos[0]` en una variable antes de pisarlo.", "Cada posición `i` recibe el valor de `i + 1`.", "El bucle debe parar en `length - 1`: `datos[i + 1]` no puede salirse."],
+      "Se guarda el primero, cada elemento recibe el valor de su vecino de la derecha y el primero guardado va a la última posición."),
+
+    /* ---------- x3 · Ordenar ---------- */
+    choice("x3a", "prediction", "sorting", "intermediate", "Una pasada de burbuja",
+      "¿Qué imprime este código tras **una sola pasada**?", "int[] a = {5, 3, 8, 1};\nfor (int j = 0; j < a.length - 1; j++) {\n    if (a[j] > a[j + 1]) {\n        int t = a[j];\n        a[j] = a[j + 1];\n        a[j + 1] = t;\n    }\n}\nfor (int i = 0; i < a.length; i++) {\n    System.out.print(a[i] + \" \");\n}",
+      ["3 5 1 8", "1 3 5 8", "3 5 8 1", "5 3 8 1"], "3 5 1 8",
+      { "1 3 5 8": "Eso es el array ya ordenado, pero una pasada no basta: faltan vueltas del bucle exterior.", "3 5 8 1": "El 8 y el 1 también se comparan: 8 > 1, así que se intercambian.", "5 3 8 1": "Ese es el array original: al comparar 5 y 3 sí hay intercambio." },
+      ["Compara parejas: (5,3), (5,8), (8,1).", "Cada pareja desordenada se intercambia en el momento."],
+      "(5,3) → intercambia: `3 5 8 1`. (5,8) → no. (8,1) → intercambia: **3 5 1 8**. El mayor (8) ya está al final.", { verify: true }),
+
+    detect("x3b", "sorting", "intermediate", "La burbuja que se sale", "Esta burbuja falla con una `ArrayIndexOutOfBoundsException`. ¿Qué línea tiene el error?",
+      ["int[] a = {4, 2, 7, 1};", "for (int i = 0; i < a.length - 1; i++) {", "    for (int j = 0; j < a.length; j++) {", "        if (a[j] > a[j + 1]) {", "            int t = a[j]; a[j] = a[j + 1]; a[j + 1] = t;", "        }", "    }", "}"], 3,
+      ["Se compara `a[j]` con `a[j + 1]`: ¿qué pasa cuando `j` es el último índice?", "El último `j` válido es `a.length - 2`."],
+      "Con `j < a.length`, `j` llega a 3 y `a[j + 1]` es `a[4]`, que no existe. El bucle interno debe ser `j < a.length - 1`."),
+
+    { id: "x3c", type: "completar", topic: "sorting", difficulty: "beginner", title: "Ordenar con Java",
+      prompt: "Usa las herramientas de `java.util.Arrays` para ordenar el array y mostrarlo.",
+      template: "import java.util.Arrays;\n\nint[] numeros = {3, 1, 2};\nArrays.{{1}}(numeros);\nSystem.out.println(Arrays.{{2}}(numeros));",
+      blanks: [{ id: "1", options: ["sort", "order", "sorted", "sortArray"], answer: "sort" }, { id: "2", options: ["toString", "print", "show", "text"], answer: "toString" }],
+      why: { "order": "No existe `Arrays.order`: el método se llama `sort`.", "sorted": "`sorted` es de los streams, no de `Arrays`.", "sortArray": "No existe `Arrays.sortArray`.", "print": "No existe `Arrays.print`: `Arrays.toString` convierte el array en texto y `println` lo muestra.", "show": "No existe `Arrays.show`.", "text": "No existe `Arrays.text`." },
+      hints: ["Está en la clase `Arrays` y su nombre es el verbo «ordenar» en inglés.", "Para mostrar un array como texto, `println(a)` no sirve: hace falta convertirlo."],
+      explanation: "`Arrays.sort(numeros)` ordena el array y `Arrays.toString(numeros)` lo convierte en texto: `[1, 2, 3]`.",
+      estimatedMinutes: 2, verify: { program: "import java.util.Arrays;\npublic class Main { public static void main(String[] args) { int[] numeros = {3, 1, 2}; Arrays.{{1}}(numeros); System.out.println(Arrays.{{2}}(numeros)); } }", output: "[1, 2, 3]" } },
+
+    program("x3d", "sorting", "intermediate", "Tu propia burbuja",
+      "Ordena el array de menor a mayor **a mano**, con el método de la burbuja, e imprímelo: `1 2 5 9`.",
+      "ejercicios/Ejercicio8.java",
+      "// Ejercicio 8: ordena el array de menor a mayor con la burbuja e imprímelo (1 2 5 9).\npublic class Ejercicio8 {\n    public static void main(String[] args) {\n        int[] datos = {5, 2, 9, 1};\n        // TODO: dos bucles anidados que comparen parejas vecinas y las intercambien\n    }\n}\n",
+      "1 2 5 9",
+      "public class Ejercicio8 {\n    public static void main(String[] args) {\n        int[] datos = {5, 2, 9, 1};\n        for (int i = 0; i < datos.length - 1; i++) {\n            for (int j = 0; j < datos.length - 1 - i; j++) {\n                if (datos[j] > datos[j + 1]) {\n                    int temp = datos[j];\n                    datos[j] = datos[j + 1];\n                    datos[j + 1] = temp;\n                }\n            }\n        }\n        for (int i = 0; i < datos.length; i++) {\n            System.out.print(datos[i] + \" \");\n        }\n    }\n}\n",
+      ["Dos bucles anidados: el exterior repite las pasadas, el interior compara parejas.", "Dentro: `if (datos[j] > datos[j + 1])` → intercambio con una variable auxiliar.", "El bucle interior llega hasta `length - 1 - i` para no salirse del array."],
+      "Cada pasada lleva el mayor restante hasta su sitio. Tras `length - 1` pasadas, el array queda ordenado: **1 2 5 9**."),
+
+    /* ---------- x4 · Arrays y métodos ---------- */
+    choice("x4a", "prediction", "methods", "intermediate", "El método que modifica",
+      "¿Qué imprime este programa?", "static void incrementar(int[] v) {\n    v[0] = v[0] + 10;\n}\n\n// en main:\nint[] a = {1, 2, 3};\nincrementar(a);\nSystem.out.println(a[0]);",
+      ["1", "10", "11", "3"], "11",
+      { "1": "Un array se pasa por **referencia**: el método modifica el array original, no una copia.", "10": "10 es lo que se suma; el resultado es 1 + 10.", "3": "Ese es `a[2]`; se imprime `a[0]`." },
+      ["¿El método recibe una copia o el propio array?", "El cambio hecho dentro del método se ve fuera."],
+      "El método recibe la **referencia** del array: `v[0]` es el mismo `a[0]`. Pasa de 1 a **11**.",
+      { verify: { program: "public class Main { static void incrementar(int[] v) { v[0] = v[0] + 10; } public static void main(String[] args) { int[] a = {1, 2, 3}; incrementar(a); System.out.println(a[0]); } }", output: "11" } }),
+
+    { id: "x4b", type: "completar", topic: "methods", difficulty: "intermediate", title: "La firma de un método",
+      prompt: "Completa los tipos para que el método reciba un array y devuelva el mayor valor.",
+      template: "static {{1}} maximo({{2}} datos) {\n    int max = datos[0];\n    for (int i = 1; i < datos.length; i++) {\n        if (datos[i] > max) {\n            max = datos[i];\n        }\n    }\n    return max;\n}",
+      blanks: [{ id: "1", options: ["int", "int[]", "void", "array"], answer: "int" }, { id: "2", options: ["int[]", "int", "array", "list"], answer: "int[]" }],
+      why: { "1:int[]": "El método devuelve un solo número (`max`), no un array.", "1:void": "`void` significa que no devuelve nada, pero aquí hay un `return max;`.", "1:array": "Java no tiene un tipo llamado `array`: los arrays se escriben `int[]`.", "2:int": "El método recibe el array entero, no un solo número.", "2:array": "Java no tiene un tipo llamado `array`: se escribe `int[]`.", "2:list": "Una lista es otra cosa (`ArrayList`), no un array." },
+      hints: ["¿Qué devuelve `return max;`?", "El parámetro es el array completo: su tipo lleva corchetes."],
+      explanation: "Devuelve un número (`int`) y recibe un array de enteros (`int[]`): `static int maximo(int[] datos)`.",
+      estimatedMinutes: 3, verify: { program: "public class Main {\nstatic {{1}} maximo({{2}} datos) {\n int max = datos[0];\n for (int i = 1; i < datos.length; i++) { if (datos[i] > max) { max = datos[i]; } }\n return max;\n}\npublic static void main(String[] args) { System.out.println(maximo(new int[]{3, 9, 4})); } }", output: "9" } },
+
+    program("x4c", "methods", "intermediate", "Contar apariciones",
+      "Completa el método `contar`: debe devolver cuántas veces aparece `objetivo` en el array.",
+      "ejercicios/Ejercicio9.java",
+      "// Ejercicio 9: completa el método contar (cuántas veces aparece objetivo en datos).\npublic class Ejercicio9 {\n    static int contar(int[] datos, int objetivo) {\n        // TODO: cuenta las apariciones y devuélvelas\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        int[] datos = {1, 2, 3, 2, 2, 5};\n        System.out.println(contar(datos, 2));\n    }\n}\n",
+      "3",
+      "public class Ejercicio9 {\n    static int contar(int[] datos, int objetivo) {\n        int veces = 0;\n        for (int i = 0; i < datos.length; i++) {\n            if (datos[i] == objetivo) {\n                veces++;\n            }\n        }\n        return veces;\n    }\n\n    public static void main(String[] args) {\n        int[] datos = {1, 2, 3, 2, 2, 5};\n        System.out.println(contar(datos, 2));\n    }\n}\n",
+      ["Es el patrón de **contar**: una variable que empieza en 0.", "Dentro del bucle: `if (datos[i] == objetivo)` → suma 1.", "No imprimas dentro del método: devuelve el resultado con `return`."],
+      "El método usa el patrón «contar»: recorre el array y suma 1 cada vez que `datos[i] == objetivo`. Con `{1, 2, 3, 2, 2, 5}` y 2 → **3**."),
+
+    /* ---------- x5 · Matrices avanzadas ---------- */
+    choice("x5a", "prediction", "matrix-adv", "intermediate", "Suma de una fila",
+      "¿Qué imprime este código?", "int[][] m = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};\nint suma = 0;\nfor (int c = 0; c < m[2].length; c++) {\n    suma += m[2][c];\n}\nSystem.out.println(suma);",
+      ["6", "18", "24", "45"], "24",
+      { "6": "Esa es la suma de la fila 0 (1 + 2 + 3).", "18": "Esa es la suma de la **columna** 2 (3 + 6 + 9). Aquí se recorre la fila 2.", "45": "Eso es la suma de toda la matriz." },
+      ["La fila se fija (`m[2]`) y varía la columna `c`.", "La fila 2 es `{7, 8, 9}`."],
+      "El bucle recorre las columnas de la **fila 2**: 7 + 8 + 9 = **24**.", { verify: true }),
+
+    choice("x5b", "prediction", "matrix-adv", "intermediate", "La traspuesta",
+      "¿Qué imprime este código?", "int[][] m = {{1, 2, 3}, {4, 5, 6}};\nint[][] t = new int[3][2];\nfor (int i = 0; i < 2; i++) {\n    for (int j = 0; j < 3; j++) {\n        t[j][i] = m[i][j];\n    }\n}\nSystem.out.println(t[2][1]);",
+      ["3", "4", "5", "6"], "6",
+      { "3": "Ese es `m[0][2]`, que va a `t[2][0]`.", "4": "Ese es `m[1][0]`, que va a `t[0][1]`.", "5": "Ese es `m[1][1]`, que va a `t[1][1]`." },
+      ["`t[j][i] = m[i][j]`: lo que está en `m[1][2]` va a `t[2][1]`.", "`m[1][2]` es la fila 1, columna 2."],
+      "`t[2][1]` recibe `m[1][2]`, que vale **6**: las filas de `m` son las columnas de `t`.", { verify: true }),
+
+    detect("x5c", "matrix-adv", "intermediate", "Columnas que faltan", "Este programa debería imprimir **todos** los valores de la matriz, pero se salta algunos. ¿Qué línea tiene el error?",
+      ["int[][] t = {{1}, {2, 3}, {4, 5, 6}};", "for (int f = 0; f < t.length; f++) {", "    for (int c = 0; c < t[0].length; c++) {", "        System.out.print(t[f][c] + \" \");", "    }", "}"], 3,
+      ["Las filas tienen longitudes distintas.", "`t[0].length` es la longitud de la **primera** fila."],
+      "`t[0].length` es 1, así que el bucle interno solo imprime la primera columna de cada fila. En matrices irregulares debe usarse `t[f].length`."),
+
+    program("x5d", "matrix-adv", "intermediate", "Suma de cada fila",
+      "Imprime la **suma de cada fila** de la matriz, de arriba abajo: `6 15 24`.",
+      "ejercicios/Ejercicio10.java",
+      "// Ejercicio 10: imprime la suma de cada fila de la matriz (6 15 24).\npublic class Ejercicio10 {\n    public static void main(String[] args) {\n        int[][] matriz = {\n            {1, 2, 3},\n            {4, 5, 6},\n            {7, 8, 9}\n        };\n        // TODO: para cada fila, suma sus valores e imprime el resultado\n    }\n}\n",
+      "6 15 24",
+      "public class Ejercicio10 {\n    public static void main(String[] args) {\n        int[][] matriz = {\n            {1, 2, 3},\n            {4, 5, 6},\n            {7, 8, 9}\n        };\n        for (int f = 0; f < matriz.length; f++) {\n            int suma = 0;\n            for (int c = 0; c < matriz[f].length; c++) {\n                suma += matriz[f][c];\n            }\n            System.out.print(suma + \" \");\n        }\n    }\n}\n",
+      ["Dos bucles anidados: el externo es la fila.", "El acumulador `suma` se declara **dentro** del bucle externo, antes del interno.", "Imprime la suma al terminar cada fila."],
+      "Para cada fila se reinicia `suma` a 0, se acumulan sus columnas y se imprime: 6, 15 y 24."),
+
+    /* ---------- x6 · Errores y buenas prácticas ---------- */
+    choice("x6a", "interpretation", "errors", "intermediate", "¿Qué excepción?",
+      "¿Qué excepción lanza la segunda línea?", "int[] v = new int[3];\nv[3] = 1;",
+      ["ArrayIndexOutOfBoundsException", "NullPointerException", "ArithmeticException", "No lanza nada"], "ArrayIndexOutOfBoundsException",
+      { "NullPointerException": "El array sí existe (`new int[3]`): lo que falla es el índice, no la referencia.", "ArithmeticException": "Esa es de operaciones como dividir entre cero.", "No lanza nada": "Los índices válidos son 0, 1 y 2: el 3 no existe." },
+      ["¿Cuáles son los índices válidos de un array de 3 posiciones?", "El array existe; el problema es el índice."],
+      "Un array de 3 posiciones tiene índices 0, 1 y 2. Pedir el 3 lanza **ArrayIndexOutOfBoundsException**.",
+      { verify: { body: "try { int[] v = new int[3]; v[3] = 1; } catch (Exception e) { System.out.println(e.getClass().getSimpleName()); }", output: "ArrayIndexOutOfBoundsException" } }),
+
+    choice("x6b", "interpretation", "errors", "intermediate", "Array sin crear",
+      "¿Qué ocurre al ejecutar este código?", "int[] a = null;\nSystem.out.println(a.length);",
+      ["NullPointerException", "ArrayIndexOutOfBoundsException", "Imprime 0", "Imprime null"], "NullPointerException",
+      { "ArrayIndexOutOfBoundsException": "No se pide ningún índice: el problema es que no hay array.", "Imprime 0": "`null` no es un array vacío: no tiene longitud.", "Imprime null": "No imprime nada: el programa se detiene antes por el error." },
+      ["¿Existe realmente un array en `a`?", "Un array vacío (`{}`) y `null` no son lo mismo."],
+      "`a` vale `null`: no apunta a ningún array. Preguntar `a.length` lanza **NullPointerException**.",
+      { verify: { body: "try { int[] a = null; System.out.println(a.length); } catch (Exception e) { System.out.println(e.getClass().getSimpleName()); }", output: "NullPointerException" } }),
+
+    detect("x6c", "errors", "intermediate", "El array vacío", "Este programa falla con una `ArrayIndexOutOfBoundsException` cuando el array está vacío. ¿Qué línea falla?",
+      ["int[] v = {};", "int max = v[0];", "for (int i = 1; i < v.length; i++) {", "    if (v[i] > max) {", "        max = v[i];", "    }", "}"], 2,
+      ["¿Cuántos elementos tiene `{}`?", "Si no hay elementos, ¿existe `v[0]`?"],
+      "Un array vacío tiene `length` 0, así que `v[0]` no existe. Hay que comprobar `v.length > 0` antes de leer el primer elemento."),
+
+    program("x6d", "patterns", "challenge", "Reto: el segundo mayor",
+      "Imprime el **segundo valor más grande** del array **sin ordenarlo**: `7`.",
+      "ejercicios/Ejercicio11.java",
+      "// Ejercicio 11 (reto): imprime el segundo mayor valor del array, sin ordenarlo (7).\npublic class Ejercicio11 {\n    public static void main(String[] args) {\n        int[] datos = {7, 3, 9, 4};\n        // TODO: guarda a la vez el mayor y el segundo mayor mientras recorres\n    }\n}\n",
+      "7",
+      "public class Ejercicio11 {\n    public static void main(String[] args) {\n        int[] datos = {7, 3, 9, 4};\n        int mayor = Math.max(datos[0], datos[1]);\n        int segundo = Math.min(datos[0], datos[1]);\n        for (int i = 2; i < datos.length; i++) {\n            if (datos[i] > mayor) {\n                segundo = mayor;\n                mayor = datos[i];\n            } else if (datos[i] > segundo) {\n                segundo = datos[i];\n            }\n        }\n        System.out.println(segundo);\n    }\n}\n",
+      ["Necesitas **dos** variables: el mayor y el segundo.", "Cuando aparece un valor mayor que `mayor`, el antiguo mayor pasa a ser el segundo.", "Si no supera al mayor pero sí al segundo, solo se actualiza el segundo."],
+      "Se mantienen dos «mejores hasta ahora». Al aparecer un nuevo mayor, el anterior baja a segundo. Con `{7, 3, 9, 4}` el segundo mayor es **7**.")
+  ]);
+})(window.LoWKie = window.LoWKie || {});

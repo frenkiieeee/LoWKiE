@@ -28,3 +28,16 @@
   C.challengeRule = { minCompleted: 8, maxMistakeRatio: 0.25,
     reason: "Vas con muy buen ritmo y pocos fallos. ¿Te animas con algo más difícil?", concept: "Programar con arrays", activity: "Reto de programación", minutes: 10 };
 })(window.LoWKie = window.LoWKie || {});
+
+/* Reglas de «Avanzando» (mismo funcionamiento). Se evalúan después de las de la unidad base. */
+(function (L) {
+  var C = L.content;
+  C.recommendationRules.push(
+    { id: "adv-references", topics: ["references"], minMistakes: 2, reason: "Las referencias confunden a casi todo el mundo al principio: dos nombres, un mismo array.", concept: "Referencias y copias", activity: "Probar referencias y copias en el simulador", minutes: 5, target: { sim: "refs" } },
+    { id: "adv-sorting", topics: ["sorting"], minMistakes: 2, reason: "Seguir una ordenación paso a paso ayuda mucho a entender cada comparación.", concept: "Ordenar", activity: "Ver la burbuja paso a paso", minutes: 5, target: { sim: "orden" } },
+    { id: "adv-patterns", topics: ["patterns"], minMistakes: 2, reason: "Los patrones de recorrido se repiten en casi todos los problemas: merece la pena repasarlos.", concept: "Patrones de recorrido", activity: "Repasar acumular, contar y buscar", minutes: 6, target: { route: "#/leccion/x1/0" } },
+    { id: "adv-methods", topics: ["methods"], minMistakes: 2, reason: "Pasar arrays a métodos conecta con las referencias: un repaso corto lo aclara.", concept: "Arrays y métodos", activity: "Repasar métodos con arrays", minutes: 6, target: { route: "#/leccion/x4/0" } },
+    { id: "adv-matrix", topics: ["matrix-adv"], minMistakes: 2, reason: "En matrices, dibujar los índices en papel resuelve la mayoría de las dudas.", concept: "Matrices avanzadas", activity: "Repasar sumas y traspuestas", minutes: 6, target: { route: "#/leccion/x5/0" } },
+    { id: "adv-errors", topics: ["errors"], minMistakes: 2, reason: "Leer bien una excepción es la habilidad que más tiempo ahorra al programar.", concept: "Errores y buenas prácticas", activity: "Repasar excepciones y casos límite", minutes: 5, target: { route: "#/leccion/x6/0" } }
+  );
+})(window.LoWKie);

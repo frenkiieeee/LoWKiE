@@ -49,6 +49,12 @@ Restricciones para que el modo estático funcione: scripts clásicos (no ES modu
 - **Java sin instalar nada a mano**: `jdk-installer.js` descarga Temurin 21 (SHA-256 verificado) en `DATA_DIR/jdk`; `java-service.js` elige entre `JAVA_HOME`, el JDK portátil y el del sistema (gana el primero válido). `LOWKIE_IGNORE_SYSTEM_JAVA=1` fuerza el portátil.
 - **Node** lo gestionan los lanzadores (`scripts/get-node.sh|ps1`); Java lo gestiona la propia aplicación, con la confirmación del usuario en pantalla.
 
+## Avanzando (0.1.3)
+- Segunda pista de aprendizaje (`C.advanced`) con progreso independiente: módulos › temas (`section`) › pasos, consejos destacados y lista de todos los consejos.
+- `progress.js` trabaja por pistas (`overall/nextStep/stats(blocks)`); la clave de `localStorage` y el esquema del servidor **no cambian**, así que el progreso existente sigue valiendo.
+- Simuladores nuevos: ordenación (burbuja) y referencias/copias.
+- Copia de seguridad del progreso (exportar JSON / importar fusionando).
+
 ## Pendiente / limitaciones conocidas
 - Cerrar la ventana de terminal en Windows puede dejar un `java.exe` huérfano si había un programa en ejecución; el proceso se detiene por timeout (30 s) solo mientras el servicio vive.
 - Navegación a una línea concreta desde «Problemas» (por ahora abre el archivo).

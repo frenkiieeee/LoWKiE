@@ -2,6 +2,17 @@
   var h = L.ui.h, ui = L.ui, C = L.content, P = L.progress;
   var STATE_LABEL = { done: "Completado", current: "En curso", todo: "Pendiente" };
 
+  // Tarjeta de «Avanzando»: disponible siempre; el progreso es independiente del de la unidad base.
+  function advancing() {
+    var oa = P.overall(P.advBlocks()), nx = P.nextStep(P.advBlocks());
+    return h("section", { "aria-labelledby": "adv-t" },
+      h("div.section-head", null, h("h2.section-title", { id: "adv-t" }, "Avanzando"), h("a.caption", { href: "#/avanzando" }, "Ver módulos")),
+      h("div.split", null,
+        h("div", null, h("p.lead", null, C.advanced.summary), h("p.caption", null, C.advanced.prerequisite),
+          h("div", { style: "margin-top:var(--space-4)" }, nx ? ui.button((oa.done ? "Continuar: " : "Empezar: ") + nx.block.title, P.routeToStep(nx)) : ui.button("Ver mi resumen", "#/avanzando"))),
+        h("div", null, h("p.eyebrow", null, "Tu avance"), ui.progress(oa.percent, "Progreso de Avanzando"), h("p.caption", null, oa.done + " de " + oa.total + " pasos · " + oa.percent + " %"))));
+  }
+
   L.router.register("/inicio", "Inicio", function () {
     var o = P.overall(), nx = P.nextStep(), rec = P.recommend(), started = o.done > 0;
     P.shown(rec.id);
@@ -39,6 +50,8 @@
 
       h("section", { "aria-labelledby": "obj" },
         h("div.section-head", null, h("h2.section-title", { id: "obj" }, "Objetivos de la unidad")),
-        h("ul.goals", null, C.unit.goals.map(function (g) { return h("li", null, g); }))));
+        h("ul.goals", null, C.unit.goals.map(function (g) { return h("li", null, g); }))),
+
+      advancing());
   });
 })(window.LoWKie);

@@ -217,5 +217,6 @@
       "`int[][]` es un **array de arrays**: cada `m[i]` es un `int[]` independiente. Por eso las filas pueden medir distinto.")
   ];
 
+  C._h = { choice: choice, detect: detect, program: program };   // ayudantes para exercises-advanced.js
   C.exerciseById = function (id) { return C.exercises.filter(function (e) { return e.id === id; })[0] || null; };
 })(window.LoWKie = window.LoWKie || {});

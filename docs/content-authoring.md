@@ -11,6 +11,12 @@ No hace falta tocar la interfaz.
 
 Formato de texto: `` `código` `` y `**negrita**`.
 
+## Avanzando y compatibilidad del progreso
+`advanced.js` y `exercises-advanced.js` contienen la segunda parte (módulos `x1…x6`, ejercicios `x*`, archivos `Ejercicio6…11`). **Regla de oro:** nunca
+cambies los ids ni el número/orden de pasos de un bloque ya publicado (`b1…b7`, `x1…x6`): el progreso guardado usa esos ids y la posición de cada paso
+(`b2:3`). Para ampliar, añade bloques nuevos con ids nuevos. `pnpm test` lo vigila (`la unidad base conserva exactamente su estructura`).
+Cada paso lleva `section` (tema) y los de teoría un `tip` (consejo). Los huecos de «completar» admiten explicaciones por hueco: `why["1:true"]`.
+
 ## Añadir un ejercicio de elección (predicción / interpretación)
 Usa el ayudante `choice(...)` de `exercises.js`: id, tipo, concepto, dificultad, título, enunciado, código, opciones, respuesta,
 **`why`** (por qué cada opción incorrecta lo es), pistas, explicación. Después añade `{ kind: "exercise", id: "..." }` al bloque en `lesson.js`.
